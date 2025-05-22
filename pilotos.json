@@ -1,0 +1,22 @@
+[
+    {"nome": "Max", "sobrenome": "Verstappen", "equipe": "Red Bull", "numero": "1", "velocidade": 20, "concentracao": 17},
+    {"nome": "Sergio", "sobrenome": "Perez", "equipe": "Red Bull", "numero": "11", "velocidade": 16, "concentracao": 14},
+    {"nome": "Lewis", "sobrenome": "Hamilton", "equipe": "Mercedes", "numero": "44", "velocidade": 18, "concentracao": 20},
+    {"nome": "George", "sobrenome": "Russell", "equipe": "Mercedes", "numero": "63", "velocidade": 17, "concentracao": 17},
+    {"nome": "Charles", "sobrenome": "Leclerc", "equipe": "Ferrari", "numero": "16", "velocidade": 19, "concentracao": 19},
+    {"nome": "Carlos", "sobrenome": "Sainz", "equipe": "Ferrari", "numero": "55", "velocidade": 17, "concentracao": 18},
+    {"nome": "Lando", "sobrenome": "Norris", "equipe": "McLaren", "numero": "4", "velocidade": 18, "concentracao": 17},
+    {"nome": "Oscar", "sobrenome": "Piastri", "equipe": "McLaren", "numero": "81", "velocidade": 16, "concentracao": 15},
+    {"nome": "Fernando", "sobrenome": "Alonso", "equipe": "Aston Martin", "numero": "14", "velocidade": 17, "concentracao": 19},
+    {"nome": "Lance", "sobrenome": "Stroll", "equipe": "Aston Martin", "numero": "18", "velocidade": 13, "concentracao": 12},
+    {"nome": "Esteban", "sobrenome": "Ocon", "equipe": "Alpine", "numero": "31", "velocidade": 15, "concentracao": 14},
+    {"nome": "Pierre", "sobrenome": "Gasly", "equipe": "Alpine", "numero": "10", "velocidade": 15, "concentracao": 13},
+    {"nome": "Yuki", "sobrenome": "Tsunoda", "equipe": "RB", "numero": "22", "velocidade": 14, "concentracao": 12},
+    {"nome": "Daniel", "sobrenome": "Ricciardo", "equipe": "RB", "numero": "3", "velocidade": 15, "concentracao": 14},
+    {"nome": "Valtteri", "sobrenome": "Bottas", "equipe": "Sauber", "numero": "77", "velocidade": 14, "concentracao": 15},
+    {"nome": "Zhou", "sobrenome": "Guanyu", "equipe": "Sauber", "numero": "24", "velocidade": 12, "concentracao": 13},
+    {"nome": "Kevin", "sobrenome": "Magnussen", "equipe": "Haas", "numero": "20", "velocidade": 12, "concentracao": 11},
+    {"nome": "Nico", "sobrenome": "Hulkenberg", "equipe": "Haas", "numero": "27", "velocidade": 13, "concentracao": 14},
+    {"nome": "Logan", "sobrenome": "Sargeant", "equipe": "Williams", "numero": "2", "velocidade": 11, "concentracao": 10},
+    {"nome": "Alex", "sobrenome": "Albon", "equipe": "Williams", "numero": "23", "velocidade": 13, "concentracao": 14}
+]
