@@ -82,11 +82,11 @@ class AppCorrida(Window):
             return
 
         self.corrida = Corrida(self.circuito, self.pilotos)
-        self.volta_atual = 0
+        self.corrida.volta_atual = 0
         self.simular_proxima_volta()
 
     def simular_proxima_volta(self):
-        if self.volta_atual >= self.circuito.voltas:
+        if self.corrida.volta_atual >= self.circuito.voltas:
             resultado = self.corrida.tabela_volta()
             self.atualiza_tabela(resultado)
             return
@@ -95,9 +95,8 @@ class AppCorrida(Window):
         tabela = self.corrida.tabela_volta()
 
         self.atualiza_tabela(tabela)
-        self.volta_atual += 1
-        self.progress['value'] = self.volta_atual
-        self.label_voltas.config(text=f"Voltas: {self.volta_atual}/{self.circuito.voltas}")
+        self.progress['value'] = self.corrida.volta_atual
+        self.label_voltas.config(text=f"Voltas: {self.corrida.volta_atual}/{self.circuito.voltas}")
 
         velocidade_map = {
             "Muito lento": 1600,
