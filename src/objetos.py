@@ -87,7 +87,7 @@ class Corrida:
         return [(piloto, piloto.tempo_total) for piloto in classificados]
 
 
-#########################################################################################################################
+########################################################################################################################
 
 # Converte tempo no formato string para float na medida de segundos
 def converter_tempo(tempo):

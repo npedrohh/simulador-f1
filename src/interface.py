@@ -7,7 +7,7 @@ from ttkbootstrap import Window
 from ttkbootstrap.widgets import Label, Button, Combobox, Frame, Treeview
 from src.objetos import Piloto, Circuito, Corrida, formatar_tempo
 
-#
+
 class AppCorrida(Window):
     def __init__(self):
         super().__init__(themename="darkly")
