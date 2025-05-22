@@ -48,6 +48,12 @@ class Corrida:
     def __init__(self, circuito, pilotos):
         self.circuito = circuito
         self.pilotos = pilotos
+        self.classificados = []
+        self.volta_atual = 0
+
+    def simular_corrida(self):
+
+        self.simular_proxima_volta()
 
     def simular_volta(self):
         for piloto in self.pilotos:
@@ -72,19 +78,22 @@ class Corrida:
             piloto.tempo_total += tempo_volta
             piloto.voltas.append(tempo_volta)
 
+        # Incrementa o número de voltas
+        self.volta_atual += 1
+
     # Retorna uma lista de tuplas contendo cada piloto e o seu tempo total de corrida
     # Essa lista é ordenada da seguinte forma:
     # - Pilotos que NÃO ABANDONARAM, em ordem crescente de tempo de corrida
     # - Pilotos que ABANDONARAM, em ordem decrescente de tempo de corrida
     def tabela_volta(self):
-        classificados = sorted(
+        self.classificados = sorted(
             self.pilotos,
             key=lambda p: (
                 p.abandonou,
                 p.tempo_total if not p.abandonou else -p.tempo_total
             )
         )
-        return [(piloto, piloto.tempo_total) for piloto in classificados]
+        return [(piloto, piloto.tempo_total) for piloto in self.classificados]
 
 
 ########################################################################################################################
