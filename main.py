@@ -1,5 +1,5 @@
-from src.interface import AppCorrida
+from src.interface import AppCorrida, TelaInicial
 
 if __name__ == "__main__":
-    app = AppCorrida()
+    app = TelaInicial()
     app.mainloop()
