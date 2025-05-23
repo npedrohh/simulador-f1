@@ -48,16 +48,20 @@ class AppCorrida(Window):
         self.label_voltas.pack()
 
         # Tabela de resultado da corrida
-        self.tree = Treeview(self, columns=("pos", "nome", "equipe", "ultima_volta"), show="headings", height=20)
+        self.tree = Treeview(self, columns=("pos", "nome", "equipe", "ultima_volta", "proximo_piloto", "lider"), show="headings", height=20)
         self.tree.heading("pos", text="Pos")
         self.tree.heading("nome", text="Nome")
         self.tree.heading("equipe", text="Equipe")
-        self.tree.heading("ultima_volta", text="Última Volta")
+        self.tree.heading("ultima_volta", text="Últ. Volta")
+        self.tree.heading("proximo_piloto", text="Próx.")
+        self.tree.heading("lider", text="Líder")
 
-        self.tree.column("pos", width=30, anchor="center")
+        self.tree.column("pos", width=40, anchor="center")
         self.tree.column("nome", width=150)
-        self.tree.column("equipe", width=120)
-        self.tree.column("ultima_volta", width=120, anchor="center")
+        self.tree.column("equipe", width=100, anchor="center")
+        self.tree.column("ultima_volta", width=80, anchor="center")
+        self.tree.column("proximo_piloto", width=70, anchor="center")
+        self.tree.column("lider", width=70, anchor="center")
 
         self.tree.tag_configure("abandonou", background="#524f4f")
         self.tree.tag_configure("primeiro", background="#bd951b")
@@ -115,14 +119,27 @@ class AppCorrida(Window):
                 f"{pos}º",
                 f"{piloto.nome_completo()}",
                 piloto.equipe,
-                "DNF"
+                "DNF",
+                "Acidente",
+                "-"
+            ), tags=tag)
+        elif tag == "primeiro":
+            self.tree.insert("", "end", values=(
+                f"{pos}º",
+                f"{piloto.nome_completo()}",
+                piloto.equipe,
+                formatar_tempo(piloto.voltas[-1]),
+                "Líder",
+                "-"
             ), tags=tag)
         else:
             self.tree.insert("", "end", values=(
                 f"{pos}º",
                 f"{piloto.nome_completo()}",
                 piloto.equipe,
-                formatar_tempo(piloto.voltas[-1])
+                formatar_tempo(piloto.voltas[-1]),
+                piloto.delta_prox_formatado(),
+                piloto.delta_lider_formatado()
             ), tags=tag)
 
     def atualiza_tabela(self, tabela):

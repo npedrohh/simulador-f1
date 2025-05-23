@@ -12,12 +12,20 @@ class Piloto:
         self.tempo_total = 0.0  # soma de tempo de todas as voltas
         self.voltas = []  # lista de tempos por volta numa corrida
         self.abandonou = False # True se o piloto abandonou a corrida, False caso contrário
+        self.delta_proximo_piloto = None
+        self.delta_lider = None
 
     def __str__(self):
         return f"{self.nome} {self.sobrenome} - {self.equipe} #{self.numero}"
 
     def nome_completo(self):
         return f"{self.nome} {self.sobrenome}"
+
+    def delta_prox_formatado(self):
+        return f"+{self.delta_proximo_piloto:01.3f}"
+
+    def delta_lider_formatado(self):
+        return f"+{self.delta_lider:01.3f}"
 
 ###
 
@@ -48,12 +56,9 @@ class Corrida:
     def __init__(self, circuito, pilotos):
         self.circuito = circuito
         self.pilotos = pilotos
-        self.classificados = []
+        self.classificacao = []
         self.volta_atual = 0
-
-    def simular_corrida(self):
-
-        self.simular_proxima_volta()
+        self.lider = None
 
     def simular_volta(self):
         for piloto in self.pilotos:
@@ -78,7 +83,33 @@ class Corrida:
             piloto.tempo_total += tempo_volta
             piloto.voltas.append(tempo_volta)
 
-        # Incrementa o número de voltas
+        # Atualiza líder e classificação
+        self.lider = min(
+            (p for p in self.pilotos if not p.abandonou),
+            key=lambda p: p.tempo_total,
+            default=None  # opcional: evita erro se nenhum piloto estiver qualificado
+        )
+        self.classificacao = sorted(
+            self.pilotos,
+            key=lambda p: (
+                p.abandonou,
+                p.tempo_total if not p.abandonou else -p.tempo_total
+            )
+        )
+
+        # juntar+em+grupos+de+ultrapassagens+e+depois+calcular+as+ultrapassagens
+
+        # Atualiza delta tanto pro Líder quanto para o próximo piloto
+        for piloto in self.pilotos:
+            if piloto == self.lider:
+                piloto.delta_proximo_piloto = "Líder"
+                piloto.delta_lider = "Líder"
+            else:
+                posicao_piloto = self.classificacao.index(piloto)
+                proximo_piloto = self.classificacao[posicao_piloto-1]
+                piloto.delta_proximo_piloto = piloto.tempo_total - proximo_piloto.tempo_total
+                piloto.delta_lider = piloto.tempo_total - self.lider.tempo_total
+
         self.volta_atual += 1
 
     # Retorna uma lista de tuplas contendo cada piloto e o seu tempo total de corrida
@@ -86,14 +117,14 @@ class Corrida:
     # - Pilotos que NÃO ABANDONARAM, em ordem crescente de tempo de corrida
     # - Pilotos que ABANDONARAM, em ordem decrescente de tempo de corrida
     def tabela_volta(self):
-        self.classificados = sorted(
+        self.classificacao = sorted(
             self.pilotos,
             key=lambda p: (
                 p.abandonou,
                 p.tempo_total if not p.abandonou else -p.tempo_total
             )
         )
-        return [(piloto, piloto.tempo_total) for piloto in self.classificados]
+        return [(piloto, piloto.tempo_total) for piloto in self.classificacao]
 
 
 ########################################################################################################################
