@@ -64,11 +64,13 @@ class Classificacao:
         self.tempos_saida = {piloto.numero: [] for piloto in self.pilotos} # criar estrutura assim pra outros objetos! muito bom
         self.classificou = {piloto.numero: True for piloto in self.pilotos}
         self.melhor_volta = {piloto.numero: float('inf') for piloto in self.pilotos}
+        self.eliminado_na_etapa = {piloto.numero: -1 for piloto in self.pilotos}
 
     def simular_segundo(self):
         for piloto in self.pilotos:
-            if (self.tempo_atual == self.tempos_saida[piloto.numero][0]) or (self.tempo_atual == self.tempos_saida[piloto.numero][1]):
-                self.simular_volta(piloto)
+            if self.classificou[piloto.numero]:
+                if (self.tempo_atual == self.tempos_saida[piloto.numero][0]) or (self.tempo_atual == self.tempos_saida[piloto.numero][1]):
+                    self.simular_volta(piloto)
 
         self.tempo_atual += 1
 
@@ -76,14 +78,29 @@ class Classificacao:
         match self.etapa:
             case 1:
                 self.tempo_final = 18*60
+
             case 2:
                 self.tempo_final = 15*60
+                ultimos_5 = self.classificacao[-5:]
+                for piloto in ultimos_5:
+                    self.classificou[piloto.numero] = False
+                    self.eliminado_na_etapa[piloto.numero] = 1
             case 3:
                 self.tempo_final = 10*60
+                pilotos_11_a_15 = self.classificacao[10:15]
+                for piloto in pilotos_11_a_15:
+                    self.classificou[piloto.numero] = False
+                    self.eliminado_na_etapa[piloto.numero] = 2
 
         for piloto in self.pilotos:
+            if len(self.tempos_saida[piloto.numero]):
+                self.tempos_saida[piloto.numero].pop()
+                self.tempos_saida[piloto.numero].pop()
             if self.classificou[piloto.numero]:
                 self.definir_tempo_saida(piloto)
+                self.melhor_volta[piloto.numero] = float('inf')
+
+        self.tempo_atual = 0
 
     def definir_tempo_saida(self, piloto):
         while True:
@@ -113,8 +130,9 @@ class Classificacao:
         self.classificacao = sorted(
             self.pilotos,
             key=lambda p: (
-                self.classificou[p.numero],
-                self.melhor_volta[p.numero] if not self.classificou[p.numero] else self.melhor_volta[p.numero]
+                not self.classificou[p.numero],
+                -self.eliminado_na_etapa[p.numero] if not self.classificou[p.numero] else 0,
+                self.melhor_volta[p.numero]
             )
         )
         return [(piloto, piloto.tempo_total) for piloto in self.classificacao]

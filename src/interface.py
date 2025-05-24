@@ -211,7 +211,8 @@ class TelaClassificacao(tb.Toplevel):
         Label(self, text=f"GP do {self.circuito.pais} - {self.circuito.nome}", font=("Arial", 16, "bold")).pack(pady=10)
 
         # Botão para simular a corrida com os dados atuais
-        Button(self, text="Começar Q1", command=self.simular_classificacao, width=30).pack(pady=5)
+        self.botao_q = Button(self, text="Começar Q1", command=self.simular_classificacao, width=30)
+        self.botao_q.pack(pady=5)
 
         # Label e Combobox para velocidade
         frame_velocidade = Frame(self)
@@ -258,8 +259,17 @@ class TelaClassificacao(tb.Toplevel):
             messagebox.showwarning("Aviso", "Carregue os pilotos primeiro.")
             return
 
+        self.botao_q.config(state="disabled", text="Simulando Q1")  # Desativa o botão
+
+        self.simular_proxima_etapa()
+
+    def simular_proxima_etapa(self):
+        if self.classificacao.etapa > 3:
+            resultado = self.classificacao.tabela_segundo()
+            self.atualiza_tabela(resultado)
+            return
+
         self.classificacao.setar_etapa()
-        # self.simular_proxima_etapa()
         self.simular_proximo_segundo()
 
     def simular_proximo_segundo(self):
@@ -267,6 +277,7 @@ class TelaClassificacao(tb.Toplevel):
             resultado = self.classificacao.tabela_segundo()
             self.atualiza_tabela(resultado)
             self.classificacao.etapa += 1
+            self.botao_q.config(state="normal", text="Começar Q2")
             return
 
         self.classificacao.simular_segundo()
@@ -278,11 +289,11 @@ class TelaClassificacao(tb.Toplevel):
 
         velocidade_map = {
             "Muito lento": 100,
-            "Lento": 80,
-            "Normal": 60,
-            "Rápido": 40,
-            "Muito rápido": 20,
-            "Ultra rápido": 5
+            "Lento": 65,
+            "Normal": 40,
+            "Rápido": 20,
+            "Muito rápido": 5,
+            "Ultra rápido": 1
         }
         self.velocidade = velocidade_map.get(self.velocidade_var.get(), 1000)
         self.after(self.velocidade, self.simular_proximo_segundo)
